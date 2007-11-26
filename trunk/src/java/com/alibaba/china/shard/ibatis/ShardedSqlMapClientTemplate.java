@@ -158,4 +158,17 @@ public class ShardedSqlMapClientTemplate implements Operations {
                 callback, "update()", this.sqlMapClient), new SumExitStrategy());
         return result;
     }
+
+    public int queryForCount(final String statementName, final Object parameterObject) throws DataAccessException {
+        SqlMapClientCallback callback = new SqlMapClientCallback() {
+
+            public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
+                return executor.queryForObject(statementName, parameterObject);
+            }
+
+        };
+
+        return (Integer)this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
+                "queryForObject()", this.sqlMapClient), new SumExitStrategy());
+    }
 }

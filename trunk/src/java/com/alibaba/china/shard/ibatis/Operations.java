@@ -26,6 +26,15 @@ import org.springframework.dao.DataAccessException;
  */
 public interface Operations {
 
+    /**
+     * 可以用来查询count(*),sum(xx)
+     * 
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForObject(String, Object)
+     * @throws org.springframework.dao.DataAccessException in case of errors
+     */
+    int queryForCount(String statementName, Object parameterObject)
+            throws DataAccessException;
+    
 	/**
 	 * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForObject(String, Object)
 	 * @throws org.springframework.dao.DataAccessException in case of errors

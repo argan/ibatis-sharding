@@ -6,11 +6,11 @@
 			<list>
 				<bean class="com.alibaba.china.shard.ShardImpl">
 					<constructor-arg index="0" ref="dataSource1" />
-					<constructor-arg index="1"><value>0-2,6,7</value></constructor-arg>
+					<constructor-arg index="1"><value>0,6-8</value></constructor-arg>
 				</bean>
 				<bean class="com.alibaba.china.shard.ShardImpl">
 					<constructor-arg index="0" ref="dataSource2" />
-					<constructor-arg index="1"><value>3-5,8,9</value></constructor-arg>
+					<constructor-arg index="1"><value>2-5,1,9</value></constructor-arg>
 				</bean>
 			</list>
 		</property>
@@ -23,7 +23,7 @@
 			</bean>
 		</property>
 		<property name="shardAccessStrategy">
-			<bean class="com.alibaba.china.shard.strategy.access.impl.SequentialShardAccessStrategy"/>
+			<bean class="com.alibaba.china.shard.strategy.access.impl.ParallelShardAccessStrategy"/>
 		</property>
 	</bean>
 	

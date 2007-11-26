@@ -5,11 +5,12 @@
     <typeAlias alias="TA-Test" type="com.alibaba.china.shard.TestEntity"/>
     <resultMap id="RM-Test" class="TA-Test">
         <result property="id"               column="ID"                 jdbcType="NUMERIC"     javaType="java.lang.Integer"/>	
-        <result property="loginName"         column="LOGIN_NAME"          jdbcType="VARCHAR"     javaType="java.lang.String"/>	
+        <result property="loginName"        column="LOGIN_NAME"         jdbcType="VARCHAR"     javaType="java.lang.String"/>
+        <result property="content"          column="CONTENT"            jdbcType="VARCHAR"     javaType="java.lang.String"/>	
     </resultMap>
 	<insert id="ms-insert-test" parameterClass="TA-Test">
-	insert into t_test (login_name)
-	values (#loginName#)
+	insert into t_test (login_name,content)
+	values (#loginName#,#content#)
 	<selectKey resultClass="java.lang.Integer" keyProperty="id"> SELECT LAST_INSERT_ID() AS Id </selectKey>
 	</insert>
 	

@@ -15,12 +15,14 @@ public class SequentialShardAccessStrategy implements ShardAccessStrategy {
 
     private final Log log = LogFactory.getLog(getClass());
 
-    public Object apply(List<Shard> shards, ShardOperation  operation, ExitStrategy  exitStrategy,
-            ExitOperationsCollector  exitOperationsCollector) {
+    public Object apply(List<Shard> shards, ShardOperation operation, ExitStrategy exitStrategy,
+            ExitOperationsCollector exitOperationsCollector) {
         for (Shard shard : shards) {
             if (exitStrategy.addResult(operation.execute(shard), shard)) {
-                log.debug(String.format("Short-circuiting operation %s after execution against shard %s", operation
-                        .getOperationName(), shard));
+                if (log.isDebugEnabled()) {
+                    log.debug(String.format("Short-circuiting operation %s after execution against shard %s", operation
+                            .getOperationName(), shard));
+                }
                 break;
             }
         }
@@ -28,7 +30,10 @@ public class SequentialShardAccessStrategy implements ShardAccessStrategy {
     }
 
     public Object apply(List<Shard> shards, ShardOperation operation, ExitStrategy exitStrategy) {
-        return this.apply(shards, operation, exitStrategy,null);
+        if (log.isDebugEnabled()){
+            log.debug(String.format("Executing %s on %d shards.",operation.getOperationName(),shards.size()));
+        }
+        return this.apply(shards, operation, exitStrategy, null);
     }
 
 }

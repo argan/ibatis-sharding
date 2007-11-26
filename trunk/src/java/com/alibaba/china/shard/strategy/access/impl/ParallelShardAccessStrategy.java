@@ -22,7 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,7 +51,12 @@ public class ParallelShardAccessStrategy implements ShardAccessStrategy {
     public ParallelShardAccessStrategy(ThreadPoolExecutor executor) {
         this.executor = executor;
     }
+    
+    public ParallelShardAccessStrategy(){
+        this.executor = buildThreadPoolExecutor();
+    }
 
+    
     public Object apply(List<Shard> shards, ShardOperation operation, ExitStrategy exitStrategy,
             ExitOperationsCollector exitOperationsCollector) {
 
@@ -100,4 +108,18 @@ public class ParallelShardAccessStrategy implements ShardAccessStrategy {
     public Object apply(List<Shard> shards, ShardOperation operation, ExitStrategy exitStrategy) {
         return this.apply(shards, operation, exitStrategy,null);
     }
+    
+    private static final ThreadFactory FACTORY = new ThreadFactory() {
+        private int nextThreadId = 0;
+        public Thread newThread(Runnable r) {
+          Thread t = Executors.defaultThreadFactory().newThread(r);
+          t.setDaemon(true);
+          t.setName("T" + (nextThreadId++));
+          return t;
+        }
+      };
+
+      private ThreadPoolExecutor buildThreadPoolExecutor() {
+        return new ThreadPoolExecutor(10, 50, 60, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), FACTORY);
+      }
 }

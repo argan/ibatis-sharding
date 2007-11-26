@@ -13,6 +13,7 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 
 /**
  * 为ibatsi提供sharding支持，目前不支持transaction和结果带排序的合并
+ * 
  * 不支持求平均数，group by等需要所有节点支持的操作
  * 
  * 推荐使用时能将每次查询只分布在唯一的节点
@@ -83,6 +84,10 @@ public class ShardedSqlMapClientDAOSupport extends DaoSupport {
         }
     }
 
+    public List<Shard> getShards(){
+        return new ArrayList<Shard>(this.shards);
+    }
+    
     public void setShards(List<Shard> shards) {
         this.shards = shards;
     }

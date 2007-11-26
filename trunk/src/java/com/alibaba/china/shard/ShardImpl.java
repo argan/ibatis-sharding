@@ -6,8 +6,11 @@ import java.util.Set;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class ShardImpl implements Shard {
+    private final Log    logger = LogFactory.getLog(getClass());
 
     private DataSource   dataSource;
     private Set<ShardId> shardIds;
@@ -32,6 +35,9 @@ public class ShardImpl implements Shard {
         for (String s : arr) {
             set.addAll(parse(s));
         }
+        if (logger.isDebugEnabled()) {
+            logger.debug(String.format("Parseing string %s ,result: .", shardIdSet,set.toString()));
+        }
         return set;
     }
 
@@ -48,11 +54,11 @@ public class ShardImpl implements Shard {
             // a range
             int start = Integer.parseInt(s.substring(0, index));
             int end = Integer.parseInt(s.substring(index + 1));
-            
-            for(int i=start;i<=end;i++){
+
+            for (int i = start; i <= end; i++) {
                 set.add(new ShardId(i));
             }
-        }else{
+        } else {
             // just a int
             set.add(new ShardId(Integer.parseInt(s)));
         }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE log4j:configuration SYSTEM "./log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <!-- ===================================================================== -->
+    <!--  以下是appender的定义                                                 -->
+    <!-- ===================================================================== -->
+    <appender name="PROJECT-DEBUG" class="org.apache.log4j.ConsoleAppender">
+        <param name="encoding" value="GBK"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%5p %c{2} - %m%n"/>
+        </layout>
+    </appender>
+    <appender name="SHARDING" class="org.apache.log4j.ConsoleAppender">
+        <param name="encoding" value="GBK"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%5p %c{2} - %m%n"/>
+        </layout>
+    </appender>
+    
+    <logger name="com.alibaba.china.shard" additivity="false">
+    	<level value="DEBUG"></level>
+    	<appender-ref ref="SHARDING"/>
+    </logger>
+    <!-- ===================================================================== -->
+    <!--  以下是logger的定义                                                   -->
+    <!-- ===================================================================== -->
+    <!-- ===================================================================== -->
+    <!--  Root logger的定义                                                    -->
+    <!-- ===================================================================== -->
+    <root>
+        <level value="ERROR"/>
+        <appender-ref ref="PROJECT-DEBUG"/>
+    </root>
+</log4j:configuration>

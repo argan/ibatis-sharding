@@ -6,4 +6,5 @@ public class SimpleDAO extends ShardedSqlMapClientDAOSupport {
     public void insertEntity(TestEntity entity){
        this.getSqlMapClientTemplate(new LoginNameResolutionStrategyData(entity.getLoginName())).insert("ms-insert-test", entity);
     }
+    
 }
