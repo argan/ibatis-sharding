@@ -7,7 +7,9 @@ import com.alibaba.china.shard.strategy.access.ExitOperationsCollector;
 import com.alibaba.china.shard.strategy.access.ExitStrategy;
 
 public class ConcatMapExitStrategy implements ExitStrategy {
+    @SuppressWarnings("unchecked")
     private Map result;
+    @SuppressWarnings("unchecked")
     public boolean addResult(Object obj, Shard shard) {
         if (obj instanceof Map){
             this.result.putAll((Map)obj);
@@ -15,7 +17,8 @@ public class ConcatMapExitStrategy implements ExitStrategy {
         return false;
     }
 
-    public Object compileResults(ExitOperationsCollector exitOperationsCollector) {
+    @SuppressWarnings("unchecked")
+    public Map compileResults(ExitOperationsCollector exitOperationsCollector) {
         return this.result;
     }
 

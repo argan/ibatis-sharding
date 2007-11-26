@@ -8,8 +8,10 @@ import com.alibaba.china.shard.strategy.access.ExitStrategy;
 
 public class ConcatExitStrategy implements ExitStrategy {
 
+    @SuppressWarnings("unchecked")
     private List result;
 
+    @SuppressWarnings("unchecked")
     public boolean addResult(Object obj, Shard shard) {
         if (obj instanceof List) {
             this.result.addAll((List) obj);
@@ -17,7 +19,8 @@ public class ConcatExitStrategy implements ExitStrategy {
         return false;
     }
 
-    public Object compileResults(ExitOperationsCollector exitOperationsCollector) {
+    @SuppressWarnings("unchecked")
+    public List compileResults(ExitOperationsCollector exitOperationsCollector) {
         return this.result;
     }
 

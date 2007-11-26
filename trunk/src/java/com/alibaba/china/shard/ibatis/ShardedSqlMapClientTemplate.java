@@ -9,7 +9,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.SqlMapClientCallback;
 
-import com.alibaba.china.shard.Operations;
 import com.alibaba.china.shard.Shard;
 import com.alibaba.china.shard.strategy.access.ExitStrategy;
 import com.alibaba.china.shard.strategy.access.ShardAccessStrategy;
@@ -59,7 +58,7 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         Integer result = (Integer) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(
                 callback, "delete()", this.sqlMapClient), new SumExitStrategy());
-        return result;
+        return result == null ? 0 : result.intValue();
     }
 
     public Object insert(final String statementName, final Object parameterObject) throws DataAccessException {
@@ -75,6 +74,7 @@ public class ShardedSqlMapClientTemplate implements Operations {
                 this.sqlMapClient), new FirstNotNullExitStrategy());
     }
 
+    @SuppressWarnings("unchecked")
     public List queryForList(final String statementName, final Object parameterObject) throws DataAccessException {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
@@ -88,6 +88,7 @@ public class ShardedSqlMapClientTemplate implements Operations {
                 "queryForList()", this.sqlMapClient), new ConcatExitStrategy());
     }
 
+    @SuppressWarnings("unchecked")
     public Map queryForMap(final String statementName, final Object parameterObject, final String keyProperty)
             throws DataAccessException {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
@@ -102,6 +103,7 @@ public class ShardedSqlMapClientTemplate implements Operations {
                 "queryForMap()", this.sqlMapClient), new ConcatMapExitStrategy());
     }
 
+    @SuppressWarnings("unchecked")
     public Map queryForMap(final String statementName, final Object parameterObject, final String keyProperty,
             final String valueProperty) throws DataAccessException {
         SqlMapClientCallback callback = new SqlMapClientCallback() {

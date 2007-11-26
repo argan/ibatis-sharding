@@ -8,6 +8,9 @@
     <version>0.1</version>
     <build>
         <sourceDirectory>src/java</sourceDirectory>
+        <testSourceDirectory>src/java.test</testSourceDirectory>
+        <outputDirectory>target/classes</outputDirectory>
+        <testOutputDirectory>target/test-classes</testOutputDirectory>
         <defaultGoal>package</defaultGoal>
         <finalName>ibatis-sharding</finalName>
         <resources>
@@ -22,6 +25,11 @@
                 </includes>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/conf.test</directory>
+            </testResource>
+        </testResources>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -47,7 +55,7 @@
             <artifactId>commons-collections</artifactId>
             <version>${commons-collections-version}</version>
         </dependency>
-<dependency>
+        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>${commons-lang-version}</version>
@@ -102,6 +110,18 @@
             <artifactId>ibatis-sqlmap</artifactId>
             <version>${ibatis-version}</version>
         </dependency>
+       <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+       <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <properties>
         <c3p0-version>0.9.1.2</c3p0-version>
@@ -112,5 +132,8 @@
         <commons-logging-version>1.1</commons-logging-version>
         <log4j-version>1.2.14</log4j-version>
         <spring-version>2.5</spring-version>
+        <!-- for test -->
+        <junit-version>3.8.2</junit-version>
+        <mysql-version>5.1.5</mysql-version>
     </properties>
 </project>

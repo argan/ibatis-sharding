@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="simpleDAO" class="com.alibaba.china.shard.SimpleDAO">
+		<property name="shards">
+			<list>
+				<bean class="com.alibaba.china.shard.ShardImpl">
+					<constructor-arg index="0" ref="dataSource1" />
+					<constructor-arg index="1"><value>0-2,6,7</value></constructor-arg>
+				</bean>
+				<bean class="com.alibaba.china.shard.ShardImpl">
+					<constructor-arg index="0" ref="dataSource2" />
+					<constructor-arg index="1"><value>3-5,8,9</value></constructor-arg>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="shardStrategy" class="com.alibaba.china.shard.strategy.ShardStrategyImpl">
+		<property name="shardResolutionStrategy">
+			<bean class="com.alibaba.china.shard.MyShardResolutionStrategy">
+				<property name="allShardCount"><value>10</value></property>
+			</bean>
+		</property>
+		<property name="shardAccessStrategy">
+			<bean class="com.alibaba.china.shard.strategy.access.impl.SequentialShardAccessStrategy"/>
+		</property>
+	</bean>
+	
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>sqlmap.xml</value>
+		</property>
+	</bean>
+	
+	<bean id="dataSource1" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+	    <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost/sharding1"/>
+        <property name="user" value="root"/>
+        <property name="password" value="hello"/>
+	</bean>
+	<bean id="dataSource2" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+	    <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost/sharding2"/>
+        <property name="user" value="root"/>
+        <property name="password" value="hello"/>
+	</bean>
+</beans>
