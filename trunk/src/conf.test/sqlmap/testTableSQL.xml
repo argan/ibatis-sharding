@@ -14,8 +14,18 @@
 	<selectKey resultClass="java.lang.Integer" keyProperty="id"> SELECT LAST_INSERT_ID() AS Id </selectKey>
 	</insert>
 	
-	<select id="ms-select-test-by-memberId" resultMap="RM-Test">
-	select * from t_test where login_name=#loginName#
+	<select id="ms-select-test-by-loginName" resultMap="RM-Test">
+	select * from t_test where login_name=#value#
+	</select>
+	<select id="ms-select-test-by-loginName-array" resultMap="RM-Test">
+	select * from t_test where login_name in (
+	<iterate property="loginNames" conjunction=",">
+	#loginNames[]#
+	</iterate>
+	)
 	</select>
 	
+	<select id="ms-select-total-count" resultClass="int">
+		select count(*) from t_test
+	</select>
 </sqlMap>

@@ -1,5 +1,6 @@
 package com.alibaba.china.shard.strategy.access.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.alibaba.china.shard.Shard;
@@ -9,7 +10,7 @@ import com.alibaba.china.shard.strategy.access.ExitStrategy;
 public class ConcatExitStrategy implements ExitStrategy {
 
     @SuppressWarnings("unchecked")
-    private List result;
+    private List result = new ArrayList();
 
     @SuppressWarnings("unchecked")
     public boolean addResult(Object obj, Shard shard) {

@@ -7,8 +7,8 @@ import com.alibaba.china.shard.strategy.resolution.ShardResolutionStrategyData;
 
 public class LoginNameResolutionStrategyData implements ShardResolutionStrategyData {
 
-    private List<String> loginNames = new ArrayList<String>(1);
-
+    private List<String> loginNames = new ArrayList<String>();
+    
     public LoginNameResolutionStrategyData(String loginName) {
         this.loginNames.add(loginName);
     }

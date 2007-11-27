@@ -36,7 +36,7 @@ public class ShardImpl implements Shard {
             set.addAll(parse(s));
         }
         if (logger.isDebugEnabled()) {
-            logger.debug(String.format("Parseing string %s ,result: .", shardIdSet,set.toString()));
+            logger.debug(String.format("Parseing string %s ,result: %s.", shardIdSet,set.toString()));
         }
         return set;
     }

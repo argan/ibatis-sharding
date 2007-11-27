@@ -18,8 +18,16 @@
     </appender>
     
     <logger name="com.alibaba.china.shard" additivity="false">
-    	<level value="DEBUG"></level>
+    	<level value="ERROR"></level>
     	<appender-ref ref="SHARDING"/>
+    </logger>
+    <logger name="java.sql" additivity="false">
+    	<level value="DEBUG"/>
+    	<appender-ref ref="PROJECT-DEBUG"/>
+    </logger>
+    <logger name="com.ibatis" additivity="false">
+    	<level value="DEBUG"/>
+    	<appender-ref ref="PROJECT-DEBUG"/>
     </logger>
     <!-- ===================================================================== -->
     <!--  以下是logger的定义                                                   -->

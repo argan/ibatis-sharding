@@ -1,10 +1,12 @@
 package com.alibaba.china.shard;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.sql.DataSource;
@@ -30,12 +32,13 @@ public class ShardTest extends TestCase {
         assertNotNull(this.simpleDAO);
         this.dataSource1 = (DataSource) ctx.getBean("dataSource1");
         assertNotNull(dataSource1);
-        clearData(dataSource1);
         dataSource2 = (DataSource) ctx.getBean("dataSource2");
         assertNotNull(dataSource2);
-        clearData(dataSource2);
+    }
 
-        initCompute();
+    protected void tearDown() {
+         clearData(dataSource1);
+         clearData(dataSource2);
     }
 
     private void initCompute() {
@@ -76,19 +79,61 @@ public class ShardTest extends TestCase {
     }
 
     public void testInsert() {
+        initCompute();
+        initData();
+        assertEquals(count1, checkCount(dataSource1));
+        assertEquals(count2, checkCount(dataSource2));
+    }
+
+    private void initData() {
         int i = 0;
         while (i < 100) {
             String login = "login_name" + i;
-            TestEntity entity = new TestEntity();
-            entity.setLoginName(login);
-            entity.setContent("content " + System.currentTimeMillis());
-            this.simpleDAO.insertEntity(entity);
-            assertTrue(entity.getId() > 0);
+            String content = "content " + System.currentTimeMillis();
+            String sql = "insert into t_test (login_name,content) values ( ?,?)";
 
+            int mod = Math.abs(login.hashCode()) % 10;
+            // 6-8,0
+            if (mod == 0 || (mod >= 6 && mod <= 8)) {
+                insert(dataSource1, sql, login, content);
+            } else {
+                insert(dataSource2, sql, login, content);
+            }
             i++;
         }
-        assertEquals(count1, checkCount(dataSource1));
-        assertEquals(count2, checkCount(dataSource2));
+    }
+
+    private void insert(DataSource dataSource, String sql, String login, String content) {
+        try {
+            Connection conn = dataSource.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, login);
+            pstmt.setString(2, content);
+            pstmt.execute();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testSelectOne() {
+        initData();
+        TestEntity entity = this.simpleDAO.getEntity("login_name15");
+        assertNotNull(entity);
+    }
+
+    public void testSelectMulti() {
+        initData();
+        String[] loginNames = { "login_name15", "login_name1", "login_name12", "login_name51", "login_name97" };
+        List<TestEntity> list = this.simpleDAO.getEntities(loginNames);
+        assertNotNull(list);
+        assertEquals(5, list.size());
+    }
+
+    public void testSelectCount() {
+        initData();
+        int count = this.simpleDAO.getTotalCount();
+        assertEquals(100, count);
     }
 
     private int checkCount(DataSource dataSource) {
@@ -98,10 +143,8 @@ public class ShardTest extends TestCase {
             ResultSet rs = stmt.executeQuery("select count(*) from t_test");
             rs.next();
             int result = rs.getInt(1);
-            System.out.println("COUNT:" + result);
             return result;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return -1;

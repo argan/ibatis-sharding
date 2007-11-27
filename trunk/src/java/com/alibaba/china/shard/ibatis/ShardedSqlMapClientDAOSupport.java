@@ -19,7 +19,7 @@ import com.ibatis.sqlmap.client.SqlMapClient;
  * 推荐使用时能将每次查询只分布在唯一的节点
  * 
  * @author argan
- *
+ * 
  */
 public class ShardedSqlMapClientDAOSupport extends DaoSupport {
 
@@ -59,16 +59,27 @@ public class ShardedSqlMapClientDAOSupport extends DaoSupport {
         return new ShardedSqlMapClientTemplate(this.shardStrategy.getShardAccessStrategy(), shards, this.sqlMapClient);
     }
 
+    /**
+     * default match all shards.
+     * 
+     * @return
+     */
+    public final Operations getSqlMapClientTemplate() {
+        return new ShardedSqlMapClientTemplate(this.shardStrategy.getShardAccessStrategy(), this.shards,
+                this.sqlMapClient);
+    }
+
     private List<Shard> selectShardsByShardIds(List<ShardId> shardIds) {
         List<Shard> list = new ArrayList<Shard>(this.shards.size());
         for (Shard shard : this.shards) {
-            if (list.contains(shard) == false) {
-                for (ShardId shardId : shardIds) {
-                    if (shard.getShardIds().contains(shardId)) {
-                        list.add(shard);
-                    }
+            for (ShardId shardId : shardIds) {
+                if (shard.getShardIds().contains(shardId) && list.contains(shard) == false) {
+                    list.add(shard);
                 }
             }
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug(String.format("selected shards : %s ", list.toString()));
         }
         return list;
     }
@@ -84,10 +95,10 @@ public class ShardedSqlMapClientDAOSupport extends DaoSupport {
         }
     }
 
-    public List<Shard> getShards(){
+    public List<Shard> getShards() {
         return new ArrayList<Shard>(this.shards);
     }
-    
+
     public void setShards(List<Shard> shards) {
         this.shards = shards;
     }
