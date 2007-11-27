@@ -117,9 +117,9 @@
             <scope>test</scope>
         </dependency>
        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-version}</version>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsqldb-version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -134,6 +134,6 @@
         <spring-version>2.5</spring-version>
         <!-- for test -->
         <junit-version>3.8.2</junit-version>
-        <mysql-version>5.1.5</mysql-version>
+        <hsqldb-version>1.8.0.7</hsqldb-version>
     </properties>
 </project>

@@ -22,11 +22,11 @@
     	<appender-ref ref="SHARDING"/>
     </logger>
     <logger name="java.sql" additivity="false">
-    	<level value="DEBUG"/>
+    	<level value="ERROR"/>
     	<appender-ref ref="PROJECT-DEBUG"/>
     </logger>
     <logger name="com.ibatis" additivity="false">
-    	<level value="DEBUG"/>
+    	<level value="ERROR"/>
     	<appender-ref ref="PROJECT-DEBUG"/>
     </logger>
     <!-- ===================================================================== -->

@@ -33,16 +33,16 @@
 		</property>
 	</bean>
 	
-	<bean id="dataSource1" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-	    <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://localhost/sharding1"/>
-        <property name="user" value="root"/>
-        <property name="password" value="hello"/>
+	<bean id="abstractDataSource" abstract="true" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" >
+		<property name="driverClass" value="org.hsqldb.jdbcDriver"/>
+        <property name="user" value="sa"/>
+        <property name="password" value=""/>
 	</bean>
-	<bean id="dataSource2" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-	    <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://localhost/sharding2"/>
-        <property name="user" value="root"/>
-        <property name="password" value="hello"/>
+	
+	<bean id="dataSource1" parent="abstractDataSource">
+        <property name="jdbcUrl" value="jdbc:hsqldb:mem:sharding1"/>
+	</bean>
+	<bean id="dataSource2" parent="abstractDataSource">
+        <property name="jdbcUrl" value="jdbc:hsqldb:mem:sharding2"/>
 	</bean>
 </beans>

@@ -27,4 +27,11 @@ public class SimpleDAO extends ShardedSqlMapClientDAOSupport {
     public int getTotalCount() {
         return this.getSqlMapClientTemplate().queryForCount("ms-select-total-count", null);
     }
+
+    public Map<String, TestEntity> getEntitiesMap(String[] loginNames) {
+        Map<String, String[]> param = new HashMap<String, String[]>(1);
+        param.put("loginNames", loginNames);
+        return this.getSqlMapClientTemplate(new LoginNameResolutionStrategyData(loginNames)).queryForMap(
+                "ms-select-test-by-loginName-array", param, "loginName");
+    }
 }

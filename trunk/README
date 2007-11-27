@@ -1,10 +1,4 @@
 # encoding:utf-8
 
-要运行测试，请看：src/conf.test/beans.xml
+要运行测试，请运行mvn test
 
-你需要在localhost安装mysql数据库，并且创建两个数据库(sharding1,sharding2)
-然后在每个数据库里创建一张表t_test(具体sql如下）
-create table t_test(id int auto_increment primary key,login_name varchar(32) not null,content varchar(200));
-然后设置mysql的root密码为hello
-
-当然，你可以根据需要修改src/conf.test/beans.xml中的内容.
