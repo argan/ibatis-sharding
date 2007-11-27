@@ -10,12 +10,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.SqlMapClientCallback;
 
 import com.alibaba.china.shard.Shard;
-import com.alibaba.china.shard.strategy.access.ExitStrategy;
 import com.alibaba.china.shard.strategy.access.ShardAccessStrategy;
-import com.alibaba.china.shard.strategy.access.impl.ConcatExitStrategy;
-import com.alibaba.china.shard.strategy.access.impl.ConcatMapExitStrategy;
-import com.alibaba.china.shard.strategy.access.impl.FirstNotNullExitStrategy;
-import com.alibaba.china.shard.strategy.access.impl.SumExitStrategy;
+import com.alibaba.china.shard.strategy.access.exit.ConcatExitStrategy;
+import com.alibaba.china.shard.strategy.access.exit.ConcatMapExitStrategy;
+import com.alibaba.china.shard.strategy.access.exit.ExitStrategy;
+import com.alibaba.china.shard.strategy.access.exit.FirstNotNullExitStrategy;
+import com.alibaba.china.shard.strategy.access.exit.SumExitStrategy;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapExecutor;
 

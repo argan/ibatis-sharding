@@ -7,9 +7,9 @@ import org.apache.commons.logging.LogFactory;
 
 import com.alibaba.china.shard.Shard;
 import com.alibaba.china.shard.strategy.access.ExitOperationsCollector;
-import com.alibaba.china.shard.strategy.access.ExitStrategy;
 import com.alibaba.china.shard.strategy.access.ShardAccessStrategy;
 import com.alibaba.china.shard.strategy.access.ShardOperation;
+import com.alibaba.china.shard.strategy.access.exit.ExitStrategy;
 
 public class SequentialShardAccessStrategy implements ShardAccessStrategy {
 

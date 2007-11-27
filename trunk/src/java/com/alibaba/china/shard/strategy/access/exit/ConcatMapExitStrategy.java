@@ -1,11 +1,10 @@
-package com.alibaba.china.shard.strategy.access.impl;
+package com.alibaba.china.shard.strategy.access.exit;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.alibaba.china.shard.Shard;
 import com.alibaba.china.shard.strategy.access.ExitOperationsCollector;
-import com.alibaba.china.shard.strategy.access.ExitStrategy;
 
 public class ConcatMapExitStrategy implements ExitStrategy {
     @SuppressWarnings("unchecked")

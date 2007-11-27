@@ -26,8 +26,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.alibaba.china.shard.Shard;
-import com.alibaba.china.shard.strategy.access.ExitStrategy;
 import com.alibaba.china.shard.strategy.access.ShardOperation;
+import com.alibaba.china.shard.strategy.access.exit.ExitStrategy;
 
 /**
  * Runs a single operation on a single shard, collecting the result of the
