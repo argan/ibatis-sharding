@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -92,6 +93,24 @@ public class ShardTest extends TestCase {
         initData();
         int count = this.simpleDAO.getTotalCount();
         assertEquals(100, count);
+    }
+
+    public void testSelectListSorted() {
+        initData();
+        String[] loginNames = { "login_name15", "login_name1", "login_name12", "login_name51", "login_name97" };
+        List<TestEntity> list = this.simpleDAO.getEntitiesSorted(loginNames);
+        assertNotNull(list);
+        Arrays.sort(loginNames);
+        String[] results = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            results[i] = list.get(i).getLoginName();
+        }
+        System.out.println(String.format("loginNames: %s %s %s %s %s", (Object[])loginNames));
+        System.out.println(String.format("results : %s %s %s %s %s", (Object[])results));
+        assertEquals(results.length, loginNames.length);
+        for (int i = 0; i < results.length; i++) {
+            assertEquals(results[i],loginNames[i]);
+        }
     }
 
     private int checkCount(DataSource dataSource) {

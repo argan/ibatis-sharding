@@ -16,6 +16,7 @@
 
 package com.alibaba.china.shard.ibatis;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +58,29 @@ public interface Operations {
     List queryForList(String statementName, Object parameterObject)
 			throws DataAccessException;
 
+    /**
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForList(String, Object)
+     * @throws org.springframework.dao.DataAccessException in case of errors
+     */
+    @SuppressWarnings("unchecked")
+    List queryForListSorted(String statementName, Object parameterObject,Comparator comparator)
+            throws DataAccessException;
+    
+    /**
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForList(String)
+     * @throws org.springframework.dao.DataAccessException in case of errors
+     */
+    @SuppressWarnings("unchecked")
+    List queryForList(String statementName)
+            throws DataAccessException;
+    
+    /**
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForList(String)
+     * @throws org.springframework.dao.DataAccessException in case of errors
+     */
+    @SuppressWarnings("unchecked")
+    List queryForListSorted(String statementName,Comparator comparator)
+            throws DataAccessException;
 	/**
 	 * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForMap(String, Object, String)
 	 * @throws org.springframework.dao.DataAccessException in case of errors

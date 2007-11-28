@@ -1,6 +1,7 @@
 package com.alibaba.china.shard.ibatis;
 
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -87,6 +88,48 @@ public class ShardedSqlMapClientTemplate implements Operations {
         return (List) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
                 "queryForList()", this.sqlMapClient), new ConcatExitStrategy());
     }
+   
+    @SuppressWarnings("unchecked")
+    public List queryForListSorted(final String statementName, final Object parameterObject,Comparator comparator) throws DataAccessException {
+        SqlMapClientCallback callback = new SqlMapClientCallback() {
+
+            public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
+                return executor.queryForList(statementName, parameterObject);
+            }
+
+        };
+
+        return (List) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
+                "queryForList()", this.sqlMapClient), new ConcatExitStrategy(comparator));
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List queryForList(final String statementName) throws DataAccessException {
+        SqlMapClientCallback callback = new SqlMapClientCallback() {
+
+            public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
+                return executor.queryForList(statementName);
+            }
+
+        };
+
+        return (List) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
+                "queryForList()", this.sqlMapClient), new ConcatExitStrategy());
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List queryForListSorted(final String statementName, Comparator comparator) throws DataAccessException {
+        SqlMapClientCallback callback = new SqlMapClientCallback() {
+
+            public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
+                return executor.queryForList(statementName);
+            }
+
+        };
+
+        return (List) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
+                "queryForList()", this.sqlMapClient), new ConcatExitStrategy(comparator));
+    }
 
     @SuppressWarnings("unchecked")
     public Map queryForMap(final String statementName, final Object parameterObject, final String keyProperty)
@@ -171,4 +214,5 @@ public class ShardedSqlMapClientTemplate implements Operations {
         return (Integer)this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
                 "queryForObject()", this.sqlMapClient), new SumExitStrategy());
     }
+
 }
