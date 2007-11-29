@@ -1,5 +1,9 @@
+2007-11-28
+* add queryForListSorted in Operations,sort list result after query
+
 2007-11-27
 * add some test cases
 * replace mysql with hsqldb in test case
+
 2007-11-26
 * add a running test case
