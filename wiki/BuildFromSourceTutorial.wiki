@@ -1,5 +1,5 @@
-#summary One-sentence summary of this page.
 #labels Featured
+#如何从源代码编译
 
 = 快速上手指南 =
 
