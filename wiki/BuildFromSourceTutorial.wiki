@@ -1,0 +1,9 @@
+#summary One-sentence summary of this page.
+#labels Featured
+
+= 快速上手指南 =
+
+  # 从http://code.google.com/p/ibatis-sharding/source 取得源代码，你可能需要[http://subversion.tigris.org svn]客户端
+  # 编译代码，你需要使用[http://maven.apache.org maven2]，下载并安装
+  # 当然，你还需要[http://java.sun.com java]，下载并安装
+  # 在源代码的目录里，执行 mvn 即可，系统会执行单元测试，并打包出ibatis-sharding-{version}.jar到target目录下，另外，第一次编译时，maven可能需要下载需要的软件包
