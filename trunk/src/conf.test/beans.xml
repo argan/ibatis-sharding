@@ -18,7 +18,7 @@
 	
 	<bean id="shardStrategy" class="com.alibaba.china.shard.strategy.ShardStrategyImpl">
 		<property name="shardResolutionStrategy">
-			<bean class="com.alibaba.china.shard.MyShardResolutionStrategy">
+			<bean class="com.alibaba.china.shard.strategy.resolution.impl.SimpleHashShardResolutionStrategy">
 				<property name="allShardCount"><value>10</value></property>
 			</bean>
 		</property>
