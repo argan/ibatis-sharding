@@ -2,47 +2,72 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans default-autowire="byName">
 	<bean id="simpleDAO" class="com.alibaba.china.shard.SimpleDAO">
+		<property name="shardConfig">
+			<bean class="com.alibaba.china.shard.impl.DefaultShardConfig">
+				<property name="dataSourceMapping">
+					<map>
+						<entry key-ref="dataSource1" value="0,6-8" />
+						<entry key-ref="dataSource2" value="2-5,1,9" />
+					</map>
+				</property>
+				<property name="defaultDataSource" ref="dataSource2"/>
+			</bean>
+		</property>
+		<!--  configs before refactor
 		<property name="shards">
 			<list>
-				<bean class="com.alibaba.china.shard.ShardImpl">
+				<bean class="com.alibaba.china.shard.impl.ShardImpl">
 					<constructor-arg index="0" ref="dataSource1" />
-					<constructor-arg index="1"><value>0,6-8</value></constructor-arg>
+					<constructor-arg index="1">
+						<value>0,6-8</value>
+					</constructor-arg>
 				</bean>
-				<bean class="com.alibaba.china.shard.ShardImpl">
+				<bean class="com.alibaba.china.shard.impl.ShardImpl">
 					<constructor-arg index="0" ref="dataSource2" />
-					<constructor-arg index="1"><value>2-5,1,9</value></constructor-arg>
+					<constructor-arg index="1">
+						<value>2-5,1,9</value>
+					</constructor-arg>
 				</bean>
 			</list>
 		</property>
+		 -->
 	</bean>
-	
-	<bean id="shardStrategy" class="com.alibaba.china.shard.strategy.ShardStrategyImpl">
+
+	<bean id="shardStrategy"
+		class="com.alibaba.china.shard.strategy.ShardStrategyImpl">
 		<property name="shardResolutionStrategy">
-			<bean class="com.alibaba.china.shard.strategy.resolution.impl.SimpleHashShardResolutionStrategy">
-				<property name="allShardCount"><value>10</value></property>
+			<bean
+				class="com.alibaba.china.shard.strategy.resolution.impl.SimpleHashShardResolutionStrategy">
+				<property name="allShardCount">
+					<value>10</value>
+				</property>
 			</bean>
 		</property>
 		<property name="shardAccessStrategy">
-			<bean class="com.alibaba.china.shard.strategy.access.impl.ParallelShardAccessStrategy"/>
+			<bean
+				class="com.alibaba.china.shard.strategy.access.impl.ParallelShardAccessStrategy" />
 		</property>
 	</bean>
-	
-	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+
+	<bean id="sqlMapClient"
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<property name="configLocation">
 			<value>sqlmap.xml</value>
 		</property>
 	</bean>
-	
-	<bean id="abstractDataSource" abstract="true" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" >
-		<property name="driverClass" value="org.hsqldb.jdbcDriver"/>
-        <property name="user" value="sa"/>
-        <property name="password" value=""/>
+
+	<bean id="abstractDataSource" abstract="true"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="org.hsqldb.jdbcDriver" />
+		<property name="user" value="sa" />
+		<property name="password" value="" />
 	</bean>
-	
+
 	<bean id="dataSource1" parent="abstractDataSource">
-        <property name="jdbcUrl" value="jdbc:hsqldb:mem:sharding1"/>
+		<property name="jdbcUrl" value="jdbc:hsqldb:mem:sharding1" />
 	</bean>
 	<bean id="dataSource2" parent="abstractDataSource">
-        <property name="jdbcUrl" value="jdbc:hsqldb:mem:sharding2"/>
+		<property name="jdbcUrl" value="jdbc:hsqldb:mem:sharding2" />
 	</bean>
 </beans>

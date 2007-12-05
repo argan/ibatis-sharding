@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.dao.support.DaoSupport;
 
 import com.alibaba.china.shard.Shard;
+import com.alibaba.china.shard.ShardConfig;
 import com.alibaba.china.shard.ShardId;
 import com.alibaba.china.shard.strategy.ShardStrategy;
 import com.alibaba.china.shard.strategy.resolution.ShardResolutionStrategyData;
@@ -25,7 +26,7 @@ public class ShardedSqlMapClientDAOSupport extends DaoSupport {
 
     private ShardStrategy shardStrategy;
     private SqlMapClient  sqlMapClient;
-    private List<Shard>   shards;
+    private ShardConfig   shardConfig;
 
     /**
      * Set the iBATIS Database Layer SqlMapClient to work with. Either this or a
@@ -65,30 +66,42 @@ public class ShardedSqlMapClientDAOSupport extends DaoSupport {
      * @return
      */
     public final Operations getSqlMapClientTemplate() {
-        return new ShardedSqlMapClientTemplate(this.shardStrategy.getShardAccessStrategy(), this.shards,
-                this.sqlMapClient);
+        return new ShardedSqlMapClientTemplate(this.shardStrategy.getShardAccessStrategy(), this.shardConfig
+                .getAllShards(), this.sqlMapClient);
     }
 
     private List<Shard> selectShardsByShardIds(List<ShardId> shardIds) {
-        List<Shard> list = new ArrayList<Shard>(this.shards.size());
-        for (Shard shard : this.shards) {
+        List<Shard> list = new ArrayList<Shard>(this.shardConfig.getAllShards().size());
+        for (Shard shard : this.shardConfig.getAllShards()) {
             for (ShardId shardId : shardIds) {
                 if (shard.getShardIds().contains(shardId) && list.contains(shard) == false) {
                     list.add(shard);
                 }
             }
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug(String.format("selected shards : %s ", list.toString()));
+        if (list.size() > 0) {
+            if (logger.isDebugEnabled()) {
+                logger.debug(String.format("selected shards : %s ", list.toString()));
+            }
+        } else {
+            if (this.shardConfig.getDefaultShard() != null) {
+                list.add(this.shardConfig.getDefaultShard());
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug("No shard selected ,use defaultShard.");
+                }
+            } else {
+                logger.error("No shard selected and no defaultShard configed.");
+            }
         }
         return list;
     }
 
     protected final void checkDaoConfig() {
-        if (this.shards == null) {
-            throw new RuntimeException("No shards specified.");
+        if (this.shardConfig == null) {
+            throw new RuntimeException("No shard config specified.");
         }
-        for (Shard shard : this.shards) {
+        for (Shard shard : this.shardConfig.getAllShards()) {
             if (shard.getDataSource() == null) {
                 throw new RuntimeException("No dataSource configured for shard.");
             }
@@ -96,11 +109,11 @@ public class ShardedSqlMapClientDAOSupport extends DaoSupport {
     }
 
     public List<Shard> getShards() {
-        return new ArrayList<Shard>(this.shards);
+        return this.shardConfig.getAllShards();
     }
 
-    public void setShards(List<Shard> shards) {
-        this.shards = shards;
+    public void setShardConfig(ShardConfig shardConfig) {
+        this.shardConfig = shardConfig;
     }
 
     public void setShardStrategy(ShardStrategy shardStrategy) {
