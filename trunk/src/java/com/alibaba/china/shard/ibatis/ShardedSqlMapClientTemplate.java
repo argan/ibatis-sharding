@@ -7,12 +7,13 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.SqlMapClientCallback;
 
 import com.alibaba.china.shard.Shard;
+import com.alibaba.china.shard.strategy.access.ExitOperationsCollector;
 import com.alibaba.china.shard.strategy.access.ShardAccessStrategy;
-import com.alibaba.china.shard.strategy.access.exit.ConcatExitStrategy;
+import com.alibaba.china.shard.strategy.access.collector.ListSortExitOperationCollector;
+import com.alibaba.china.shard.strategy.access.exit.ConcatListExitStrategy;
 import com.alibaba.china.shard.strategy.access.exit.ConcatMapExitStrategy;
 import com.alibaba.china.shard.strategy.access.exit.ExitStrategy;
 import com.alibaba.china.shard.strategy.access.exit.FirstNotNullExitStrategy;
@@ -34,21 +35,21 @@ public class ShardedSqlMapClientTemplate implements Operations {
         this.sqlMapClient = sqlMapClient;
     }
 
-    /**
-     * Execute the given data access action on a SqlMapSession.
-     * 
-     * @param action
-     *            callback object that specifies the data access action
-     * @return a result object returned by the action, or <code>null</code>
-     * @throws DataAccessException
-     *             in case of SQL Maps errors
-     */
-    public final Object execute(SqlMapClientCallback callback, ExitStrategy exitStrategy) throws DataAccessException {
-        return this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback, "execute()",
-                this.sqlMapClient), exitStrategy);
+    public final Object execute(SqlMapClientCallback callback, ExitStrategy exitStrategy) {
+        return this.execute(callback, "execute()", exitStrategy, null);
     }
 
-    public int delete(final String statementName, final Object parameterObject) throws DataAccessException {
+    public final Object execute(SqlMapClientCallback callback, String opName, ExitStrategy exitStrategy) {
+        return this.execute(callback, opName, exitStrategy, null);
+    }
+
+    public final Object execute(SqlMapClientCallback callback, String opName, ExitStrategy exitStrategy,
+            ExitOperationsCollector collector) {
+        return this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback, opName,
+                this.sqlMapClient), exitStrategy, collector);
+    }
+
+    public int delete(final String statementName, final Object parameterObject) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -57,12 +58,11 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        Integer result = (Integer) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(
-                callback, "delete()", this.sqlMapClient), new SumExitStrategy());
+        Integer result = (Integer) this.execute(callback, new SumExitStrategy());
         return result == null ? 0 : result.intValue();
     }
 
-    public Object insert(final String statementName, final Object parameterObject) throws DataAccessException {
+    public Object insert(final String statementName, final Object parameterObject) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -71,12 +71,11 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        return this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback, "insert()",
-                this.sqlMapClient), new FirstNotNullExitStrategy());
+        return this.execute(callback, "insert(" + statementName + ")", new FirstNotNullExitStrategy());
     }
 
     @SuppressWarnings("unchecked")
-    public List queryForList(final String statementName, final Object parameterObject) throws DataAccessException {
+    public List queryForList(final String statementName, final Object parameterObject) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -85,12 +84,11 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        return (List) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
-                "queryForList()", this.sqlMapClient), new ConcatExitStrategy());
+        return (List) this.execute(callback, "queryForList(" + statementName + ")", new ConcatListExitStrategy());
     }
-   
+
     @SuppressWarnings("unchecked")
-    public List queryForListSorted(final String statementName, final Object parameterObject,Comparator comparator) throws DataAccessException {
+    public List queryForListSorted(final String statementName, final Object parameterObject, Comparator comparator) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -99,12 +97,12 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        return (List) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
-                "queryForList()", this.sqlMapClient), new ConcatExitStrategy(comparator));
+        return (List) this.execute(callback, "queryForListSorted(" + statementName + ")", new ConcatListExitStrategy(),
+                new ListSortExitOperationCollector(comparator));
     }
-    
+
     @SuppressWarnings("unchecked")
-    public List queryForList(final String statementName) throws DataAccessException {
+    public List queryForList(final String statementName) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -113,12 +111,11 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        return (List) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
-                "queryForList()", this.sqlMapClient), new ConcatExitStrategy());
+        return (List) this.execute(callback, "queryForList(" + statementName + ")", new ConcatListExitStrategy());
     }
-    
+
     @SuppressWarnings("unchecked")
-    public List queryForListSorted(final String statementName, Comparator comparator) throws DataAccessException {
+    public List queryForListSorted(final String statementName, Comparator comparator) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -127,13 +124,12 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        return (List) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
-                "queryForList()", this.sqlMapClient), new ConcatExitStrategy(comparator));
+        return (List) this.execute(callback, "queryForListSorted(" + statementName + ")", new ConcatListExitStrategy(),
+                new ListSortExitOperationCollector(comparator));
     }
 
     @SuppressWarnings("unchecked")
-    public Map queryForMap(final String statementName, final Object parameterObject, final String keyProperty)
-            throws DataAccessException {
+    public Map queryForMap(final String statementName, final Object parameterObject, final String keyProperty) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -142,13 +138,12 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        return (Map) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
-                "queryForMap()", this.sqlMapClient), new ConcatMapExitStrategy());
+        return (Map) this.execute(callback, "queryForMap(" + statementName + ")", new ConcatMapExitStrategy());
     }
 
     @SuppressWarnings("unchecked")
     public Map queryForMap(final String statementName, final Object parameterObject, final String keyProperty,
-            final String valueProperty) throws DataAccessException {
+            final String valueProperty) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -157,11 +152,10 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        return (Map) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
-                "queryForMap()", this.sqlMapClient), new ConcatMapExitStrategy());
+        return (Map) this.execute(callback, "queryForMap(" + statementName + ")", new ConcatMapExitStrategy());
     }
 
-    public Object queryForObject(final String statementName, final Object parameterObject) throws DataAccessException {
+    public Object queryForObject(final String statementName, final Object parameterObject) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -170,12 +164,10 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        return this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
-                "queryForObject()", this.sqlMapClient), new FirstNotNullExitStrategy());
+        return this.execute(callback, "queryForObject(" + statementName + ")", new FirstNotNullExitStrategy());
     }
 
-    public Object queryForObject(final String statementName, final Object parameterObject, final Object resultObject)
-            throws DataAccessException {
+    public Object queryForObject(final String statementName, final Object parameterObject, final Object resultObject) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -184,11 +176,10 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        return this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
-                "queryForObject()", this.sqlMapClient), new FirstNotNullExitStrategy());
+        return this.execute(callback, "queryForObject(" + statementName + ")", new FirstNotNullExitStrategy());
     }
 
-    public int update(final String statementName, final Object parameterObject) throws DataAccessException {
+    public int update(final String statementName, final Object parameterObject) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -197,12 +188,11 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        Integer result = (Integer) this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(
-                callback, "update()", this.sqlMapClient), new SumExitStrategy());
+        Integer result = (Integer) this.execute(callback, "update(" + statementName + ")", new SumExitStrategy());
         return result;
     }
 
-    public int queryForCount(final String statementName, final Object parameterObject) throws DataAccessException {
+    public int queryForCount(final String statementName, final Object parameterObject) {
         SqlMapClientCallback callback = new SqlMapClientCallback() {
 
             public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
@@ -211,8 +201,65 @@ public class ShardedSqlMapClientTemplate implements Operations {
 
         };
 
-        return (Integer)this.shardAccessStrategy.apply(this.shards, new SqlMapClientCallbackOperation(callback,
-                "queryForObject()", this.sqlMapClient), new SumExitStrategy());
+        return (Integer) this.execute(callback, "queryForObject(" + statementName + ")", new SumExitStrategy());
+    }
+
+    @SuppressWarnings("unchecked")
+    public List queryForList(final String statementName, final Object parameterObject,
+            ExitOperationsCollector exitOperationsCollector) {
+        SqlMapClientCallback callback = new SqlMapClientCallback() {
+
+            public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
+                return executor.queryForList(statementName, parameterObject);
+            }
+
+        };
+
+        return (List) this.execute(callback, "queryForList(" + statementName + ")", new ConcatListExitStrategy(),
+                exitOperationsCollector);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List queryForList(final String statementName, ExitOperationsCollector exitOperationsCollector) {
+        SqlMapClientCallback callback = new SqlMapClientCallback() {
+
+            public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
+                return executor.queryForList(statementName);
+            }
+
+        };
+
+        return (List) this.execute(callback, "queryForList(" + statementName + ")", new ConcatListExitStrategy(),
+                exitOperationsCollector);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List queryForListSorted(final String statementName, final Object parameterObject) {
+        SqlMapClientCallback callback = new SqlMapClientCallback() {
+
+            public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
+                return executor.queryForList(statementName, parameterObject);
+            }
+
+        };
+
+        return (List) this.execute(callback, "queryForListSorted(" + statementName + ")", new ConcatListExitStrategy(),
+                new ListSortExitOperationCollector());
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public List queryForListSorted(final String statementName) {
+        SqlMapClientCallback callback = new SqlMapClientCallback() {
+
+            public Object doInSqlMapClient(SqlMapExecutor executor) throws SQLException {
+                return executor.queryForList(statementName);
+            }
+
+        };
+
+        return (List) this.execute(callback, "queryForListSorted(" + statementName + ")", new ConcatListExitStrategy(),
+                new ListSortExitOperationCollector());
     }
 
 }

@@ -7,5 +7,4 @@ import com.alibaba.china.shard.strategy.access.exit.ExitStrategy;
 
 public interface ShardAccessStrategy {
     Object apply(List<Shard> shards, ShardOperation operation, ExitStrategy exitStrategy, ExitOperationsCollector exitOperationsCollector);
-    Object apply(List<Shard> shards, ShardOperation operation, ExitStrategy exitStrategy);
 }

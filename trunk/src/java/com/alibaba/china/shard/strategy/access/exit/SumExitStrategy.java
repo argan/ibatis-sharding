@@ -17,6 +17,9 @@ public class SumExitStrategy implements ExitStrategy {
     }
 
     public Integer compileResults(ExitOperationsCollector exitOperationsCollector) {
+        if (exitOperationsCollector != null) {
+            return (Integer) exitOperationsCollector.apply(this.resultMap);
+        }
         int sum = 0;
         for (Integer count : resultMap.values()) {
             if (count != null) {

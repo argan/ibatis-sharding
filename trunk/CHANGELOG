@@ -1,3 +1,6 @@
+2007-12-10
+* add ExitOperationsCollector support,user can deal with the result themselves.
+
 2007-12-5
 * implement a default simple ResolutionStrategy 
 * refactor ShardedSqlMapClientDAOSupport config 

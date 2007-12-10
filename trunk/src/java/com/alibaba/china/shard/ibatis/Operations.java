@@ -20,99 +20,120 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.dao.DataAccessException;
+import com.alibaba.china.shard.strategy.access.ExitOperationsCollector;
 
 /**
- * @author        Argan Wang
+ * @author Argan Wang
  */
 public interface Operations {
 
     /**
      * 可以用来查询count(*),sum(xx)
      * 
-     * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForObject(String, Object)
-     * @throws org.springframework.dao.DataAccessException in case of errors
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForObject(String,
+     *      Object)
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
      */
-    int queryForCount(String statementName, Object parameterObject)
-            throws DataAccessException;
-    
-	/**
-	 * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForObject(String, Object)
-	 * @throws org.springframework.dao.DataAccessException in case of errors
-	 */
-	Object queryForObject(String statementName, Object parameterObject)
-			throws DataAccessException;
+    int queryForCount(String statementName, Object parameterObject);
 
-	/**
-	 * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForObject(String, Object, Object)
-	 * @throws org.springframework.dao.DataAccessException in case of errors
-	 */
-	Object queryForObject(String statementName, Object parameterObject,	Object resultObject)
-			throws DataAccessException;
+    /**
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForObject(String,
+     *      Object)
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
+     */
+    Object queryForObject(String statementName, Object parameterObject);
 
-	/**
-	 * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForList(String, Object)
-	 * @throws org.springframework.dao.DataAccessException in case of errors
-	 */
-    @SuppressWarnings("unchecked")
-    List queryForList(String statementName, Object parameterObject)
-			throws DataAccessException;
+    /**
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForObject(String,
+     *      Object, Object)
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
+     */
+    Object queryForObject(String statementName, Object parameterObject, Object resultObject);
 
     /**
      * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForList(String, Object)
-     * @throws org.springframework.dao.DataAccessException in case of errors
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
      */
     @SuppressWarnings("unchecked")
-    List queryForListSorted(String statementName, Object parameterObject,Comparator comparator)
-            throws DataAccessException;
-    
+    List queryForList(String statementName, Object parameterObject);
+
+    @SuppressWarnings("unchecked")
+    List queryForList(String statementName, Object parameterObject, ExitOperationsCollector exitOperationsCollector);
+
+    /**
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForList(String, Object)
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
+     */
+    @SuppressWarnings("unchecked")
+    List queryForListSorted(String statementName, Object parameterObject);
+
+    @SuppressWarnings("unchecked")
+    List queryForListSorted(String statementName, Object parameterObject, Comparator comparator);
+
     /**
      * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForList(String)
-     * @throws org.springframework.dao.DataAccessException in case of errors
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
      */
     @SuppressWarnings("unchecked")
-    List queryForList(String statementName)
-            throws DataAccessException;
-    
+    List queryForList(String statementName);
+
+    @SuppressWarnings("unchecked")
+    List queryForList(String statementName, ExitOperationsCollector exitOperationsCollector);
+
     /**
      * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForList(String)
-     * @throws org.springframework.dao.DataAccessException in case of errors
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
      */
     @SuppressWarnings("unchecked")
-    List queryForListSorted(String statementName,Comparator comparator)
-            throws DataAccessException;
-	/**
-	 * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForMap(String, Object, String)
-	 * @throws org.springframework.dao.DataAccessException in case of errors
-	 */
-	@SuppressWarnings("unchecked")
-    Map queryForMap(String statementName, Object parameterObject, String keyProperty)
-			throws DataAccessException;
+    List queryForListSorted(String statementName);
 
-	/**
-	 * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForMap(String, Object, String, String)
-	 * @throws org.springframework.dao.DataAccessException in case of errors
-	 */
-	@SuppressWarnings("unchecked")
-    Map queryForMap(String statementName, Object parameterObject, String keyProperty, String valueProperty)
-			throws DataAccessException;
+    @SuppressWarnings("unchecked")
+    List queryForListSorted(String statementName, Comparator comparator);
 
-	/**
-	 * @see com.ibatis.sqlmap.client.SqlMapExecutor#insert(String, Object)
-	 * @throws org.springframework.dao.DataAccessException in case of errors
-	 */
-	Object insert(String statementName, Object parameterObject) throws DataAccessException;
+    /**
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForMap(String, Object,
+     *      String)
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
+     */
+    @SuppressWarnings("unchecked")
+    Map queryForMap(String statementName, Object parameterObject, String keyProperty);
 
-	/**
-	 * @see com.ibatis.sqlmap.client.SqlMapExecutor#update(String, Object)
-	 * @throws org.springframework.dao.DataAccessException in case of errors
-	 */
-	int update(String statementName, Object parameterObject) throws DataAccessException;
+    /**
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#queryForMap(String, Object,
+     *      String, String)
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
+     */
+    @SuppressWarnings("unchecked")
+    Map queryForMap(String statementName, Object parameterObject, String keyProperty, String valueProperty);
 
-	/**
-	 * @see com.ibatis.sqlmap.client.SqlMapExecutor#delete(String, Object)
-	 * @throws org.springframework.dao.DataAccessException in case of errors
-	 */
-	int delete(String statementName, Object parameterObject) throws DataAccessException;
+    /**
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#insert(String, Object)
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
+     */
+    Object insert(String statementName, Object parameterObject);
+
+    /**
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#update(String, Object)
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
+     */
+    int update(String statementName, Object parameterObject);
+
+    /**
+     * @see com.ibatis.sqlmap.client.SqlMapExecutor#delete(String, Object)
+     * @throws org.springframework.dao.DataAccessException
+     *             in case of errors
+     */
+    int delete(String statementName, Object parameterObject);
 
 }
