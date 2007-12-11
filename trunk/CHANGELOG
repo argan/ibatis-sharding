@@ -1,3 +1,6 @@
+2007-12-11
+* package rename
+
 2007-12-10
 * add ExitOperationsCollector support,user can deal with the result themselves.
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="GB2312"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans default-autowire="byName">
-	<bean id="simpleDAO" class="com.alibaba.china.shard.SimpleDAO">
+	<bean id="simpleDAO" class="org.isharding.shard.SimpleDAO">
 		<property name="shardConfig">
-			<bean class="com.alibaba.china.shard.impl.DefaultShardConfig">
+			<bean class="org.isharding.shard.impl.DefaultShardConfig">
 				<property name="dataSourceMapping">
 					<map>
 						<entry key-ref="dataSource1" value="0,6-8" />
@@ -16,13 +16,13 @@
 		<!--  configs before refactor
 		<property name="shards">
 			<list>
-				<bean class="com.alibaba.china.shard.impl.ShardImpl">
+				<bean class="org.isharding.shard.impl.ShardImpl">
 					<constructor-arg index="0" ref="dataSource1" />
 					<constructor-arg index="1">
 						<value>0,6-8</value>
 					</constructor-arg>
 				</bean>
-				<bean class="com.alibaba.china.shard.impl.ShardImpl">
+				<bean class="org.isharding.shard.impl.ShardImpl">
 					<constructor-arg index="0" ref="dataSource2" />
 					<constructor-arg index="1">
 						<value>2-5,1,9</value>
@@ -34,10 +34,10 @@
 	</bean>
 
 	<bean id="shardStrategy"
-		class="com.alibaba.china.shard.strategy.ShardStrategyImpl">
+		class="org.isharding.shard.strategy.ShardStrategyImpl">
 		<property name="shardResolutionStrategy">
 			<bean
-				class="com.alibaba.china.shard.strategy.resolution.impl.SimpleHashShardResolutionStrategy">
+				class="org.isharding.shard.strategy.resolution.impl.SimpleHashShardResolutionStrategy">
 				<property name="allShardCount">
 					<value>10</value>
 				</property>
@@ -45,7 +45,7 @@
 		</property>
 		<property name="shardAccessStrategy">
 			<bean
-				class="com.alibaba.china.shard.strategy.access.impl.ParallelShardAccessStrategy" />
+				class="org.isharding.shard.strategy.access.impl.ParallelShardAccessStrategy" />
 		</property>
 	</bean>
 

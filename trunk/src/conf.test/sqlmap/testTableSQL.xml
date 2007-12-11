@@ -2,7 +2,7 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="Test">
-    <typeAlias alias="TA-Test" type="com.alibaba.china.shard.TestEntity"/>
+    <typeAlias alias="TA-Test" type="org.isharding.shard.TestEntity"/>
     <resultMap id="RM-Test" class="TA-Test">
         <result property="id"               column="ID"                 jdbcType="NUMERIC"     javaType="java.lang.Integer"/>	
         <result property="loginName"        column="LOGIN_NAME"         jdbcType="VARCHAR"     javaType="java.lang.String"/>
