@@ -1,4 +1,6 @@
+#summary 项目介绍
 #labels Featured
+
 = Introduction =
 
 项目的初期目标是给ibatis提供简单的sharding支持。
