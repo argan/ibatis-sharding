@@ -107,7 +107,20 @@ public class SimpleDAOTest extends TestCase {
         }
         assertEquals(results.length, loginNames.length);
         for (int i = 0; i < results.length; i++) {
-            assertEquals(results[i],loginNames[i]);
+            assertEquals(results[i], loginNames[i]);
+        }
+    }
+
+    public void testSelectPaged() {
+        initData();
+        List<TestEntity> list1 = this.simpleDAO.all(1, 50);
+        List<TestEntity> list2 = this.simpleDAO.all(2, 50);
+        List<TestEntity> listAll = this.simpleDAO.all(1, 100);
+        for (int i = 0; i < list1.size(); i++) {
+            assertEquals(list1.get(i).getLoginName(), listAll.get(i).getLoginName());
+        }
+        for (int i = 0; i < list2.size(); i++) {
+            assertEquals(list2.get(i).getLoginName(), listAll.get(i + list1.size()).getLoginName());
         }
     }
 

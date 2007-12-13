@@ -28,4 +28,8 @@
 	<select id="ms-select-total-count" resultClass="int">
 		select count(*) from t_test
 	</select>
+	
+	<select id="ms-select-all" resultMap="RM-Test">
+		select * from t_test order by login_name LIMIT $end$
+	</select>
 </sqlMap>

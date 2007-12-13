@@ -31,5 +31,7 @@ public class TestEntity implements java.io.Serializable {
     public void setLoginName(String loginName) {
         this.loginName = loginName;
     }
-
+    public String toString(){
+        return String.format("%s", loginName);
+    }
 }

@@ -15,7 +15,7 @@ public class ListSortExitOperationCollector implements ExitOperationsCollector {
     private Comparator comparator;
 
     public ListSortExitOperationCollector() {
-
+        this(null);
     }
 
     @SuppressWarnings("unchecked")
