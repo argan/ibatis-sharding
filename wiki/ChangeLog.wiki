@@ -14,6 +14,7 @@
 *2007-12-5*
 
 # implement a default simple ResolutionStrategy 
+
 # refactor ShardedSqlMapClientDAOSupport config 
 
 *2007-11-28*
@@ -23,6 +24,7 @@
 *2007-11-27*
 
 # add some test cases
+
 # replace mysql with hsqldb in test case
 
 *2007-11-26*
