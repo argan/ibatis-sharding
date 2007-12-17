@@ -13,13 +13,13 @@ import org.isharding.shard.strategy.resolution.ShardResolutionStrategyData;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 /**
- * 为ibatsi提供sharding支持，目前不支持transaction和结果带排序的合并
+ * 为ibatsi提供sharding支持，目前不支持transaction
  * 
- * 不支持求平均数，group by等需要所有节点支持的操作
+ * 目前不支持求平均数，group by等需要所有节点支持的操作
  * 
  * 推荐使用时能将每次查询只分布在唯一的节点
  * 
- * @author argan
+ * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
  * 
  */
 public class ShardedSqlMapClientDAOSupport extends DaoSupport {

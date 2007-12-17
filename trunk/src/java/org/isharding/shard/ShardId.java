@@ -1,5 +1,8 @@
 package org.isharding.shard;
 
+/**
+ * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ */
 public class ShardId {
 
     private final int shardId;

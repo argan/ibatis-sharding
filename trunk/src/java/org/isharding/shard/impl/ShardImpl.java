@@ -12,6 +12,11 @@ import org.apache.commons.logging.LogFactory;
 import org.isharding.shard.Shard;
 import org.isharding.shard.ShardId;
 
+/**
+ * 默认的Shard实现，主要是包装dataSource和对应的shardId列表
+ * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ *
+ */
 public class ShardImpl implements Shard {
     private final Log    logger = LogFactory.getLog(getClass());
 

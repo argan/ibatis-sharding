@@ -8,6 +8,11 @@ import java.util.Map;
 import org.isharding.shard.Shard;
 import org.isharding.shard.strategy.access.ExitOperationsCollector;
 
+/**
+ * 对List结果集进行合并的退出策略
+ * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ *
+ */
 public class ConcatListExitStrategy implements ExitStrategy {
     @SuppressWarnings("unchecked")
     private Map<Shard, List> resultMap = new HashMap<Shard, List>();

@@ -38,7 +38,6 @@ import org.isharding.shard.strategy.access.exit.ExitStrategy;
 
 /**
  * Invokes the given operation on the given shards in parallel. 
- * @TODO(maxr) Add support for rejected tasks
  * 
  * @author maxr@google.com (Max Ross)
  */

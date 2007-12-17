@@ -9,7 +9,7 @@ import javax.sql.DataSource;
  * 
  * 代表一个Shard
  * 
- * @author argan 2007-11-13 下午03:06:50
+ * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
  */
 public interface Shard {
     DataSource getDataSource();

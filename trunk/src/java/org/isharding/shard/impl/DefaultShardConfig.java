@@ -14,6 +14,12 @@ import org.isharding.shard.Shard;
 import org.isharding.shard.ShardConfig;
 import org.isharding.shard.ShardId;
 
+/**
+ * ≈‰÷√–≈œ¢
+ * 
+ * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ *
+ */
 public class DefaultShardConfig implements ShardConfig, InitializingBean {
 
     private Map<DataSource, String> dataSourceMapping;

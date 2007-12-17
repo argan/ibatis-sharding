@@ -13,6 +13,11 @@ import org.apache.commons.logging.LogFactory;
 import org.isharding.shard.Shard;
 import org.isharding.shard.strategy.access.ExitOperationsCollector;
 
+/**
+ * 对queryForList的结果进行排序和分页的处理器
+ * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ *
+ */
 public class ListPagingExitOperationCollector implements ExitOperationsCollector {
 
     private static Log logger = LogFactory.getLog(ListPagingExitOperationCollector.class);

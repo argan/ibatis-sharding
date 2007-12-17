@@ -21,6 +21,11 @@ import org.isharding.shard.strategy.access.exit.SumExitStrategy;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapExecutor;
 
+/**
+ * 
+ * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ *
+ */
 public class ShardedSqlMapClientTemplate implements Operations {
     protected final Log         logger = LogFactory.getLog(getClass());
 

@@ -3,7 +3,7 @@ package org.isharding.shard.strategy.selection;
 import org.isharding.shard.ShardId;
 
 /**
- * 选择策略
+ * 选择策略(目前不在使用)
  * 
  * @author <a mailto="kerrigan@alibaba-inc.com">Argan Wang</a>
  */

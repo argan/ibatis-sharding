@@ -12,7 +12,11 @@ import org.isharding.shard.ShardId;
 import org.isharding.shard.strategy.resolution.ShardResolutionStrategy;
 import org.isharding.shard.strategy.resolution.ShardResolutionStrategyData;
 
-
+/**
+ * 根据hash来作sharding的策略
+ * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ *
+ */
 public class SimpleHashShardResolutionStrategy implements ShardResolutionStrategy {
     private final Log logger        = LogFactory.getLog(getClass());
     private int       allShardCount = 1024;

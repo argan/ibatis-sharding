@@ -10,6 +10,11 @@ import java.util.Map;
 import org.isharding.shard.Shard;
 import org.isharding.shard.strategy.access.ExitOperationsCollector;
 
+/**
+ * 对List结果集进行排序的处理器
+ * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ *
+ */
 public class ListSortExitOperationCollector implements ExitOperationsCollector {
     @SuppressWarnings( { "unchecked" })
     private Comparator comparator;

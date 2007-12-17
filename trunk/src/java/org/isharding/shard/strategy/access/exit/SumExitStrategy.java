@@ -6,6 +6,11 @@ import java.util.Map;
 import org.isharding.shard.Shard;
 import org.isharding.shard.strategy.access.ExitOperationsCollector;
 
+/**
+ * 将数字结果进行求和处理的退出策略
+ * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ *
+ */
 public class SumExitStrategy implements ExitStrategy {
 
     private Map<Shard, Integer> resultMap = new HashMap<Shard, Integer>();
