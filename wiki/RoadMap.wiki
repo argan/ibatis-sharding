@@ -1,0 +1,11 @@
+#summary 大致计划
+#labels Phase-Requirements
+
+* V0.1 *
+实现最简单的功能
+
+* V0.2*
+实现多个切分点的支持
+
+* V0.3*
+移除spring的依赖？
