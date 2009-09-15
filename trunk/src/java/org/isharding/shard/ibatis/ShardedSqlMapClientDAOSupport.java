@@ -13,7 +13,7 @@ import org.isharding.shard.strategy.resolution.ShardResolutionStrategyData;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 /**
- * 为ibatsi提供sharding支持，目前不支持transaction
+ * 为ibatis提供sharding支持，目前不支持transaction
  * 
  * 目前不支持求平均数，group by等需要所有节点支持的操作
  * 
