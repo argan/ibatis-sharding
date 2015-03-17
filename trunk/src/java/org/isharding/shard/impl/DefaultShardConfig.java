@@ -17,7 +17,7 @@ import org.isharding.shard.ShardId;
 /**
  * ≈‰÷√–≈œ¢
  * 
- * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a href="mailto:argan.wang@gmail.com">Argan Wang</a>
  *
  */
 public class DefaultShardConfig implements ShardConfig, InitializingBean {

@@ -7,7 +7,7 @@ import org.isharding.shard.strategy.access.exit.ExitStrategy;
 
 /**
  * 访问策略，请求流程的实现，如：并行，串行，或者是结果处理等
- * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a href="mailto:argan.wang@gmail.com">Argan Wang</a>
  *
  */
 public interface ShardAccessStrategy {

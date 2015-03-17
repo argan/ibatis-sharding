@@ -8,7 +8,7 @@ import org.isharding.shard.strategy.access.ExitOperationsCollector;
 
 /**
  * 对Map结果集进行合并的退出策略
- * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a href="mailto:argan.wang@gmail.com">Argan Wang</a>
  *
  */
 public class ConcatMapExitStrategy implements ExitStrategy {

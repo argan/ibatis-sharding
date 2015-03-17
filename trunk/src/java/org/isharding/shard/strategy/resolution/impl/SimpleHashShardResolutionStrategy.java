@@ -14,7 +14,7 @@ import org.isharding.shard.strategy.resolution.ShardResolutionStrategyData;
 
 /**
  * 根据hash来作sharding的策略
- * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a href="mailto:argan.wang@gmail.com">Argan Wang</a>
  *
  */
 public class SimpleHashShardResolutionStrategy implements ShardResolutionStrategy {

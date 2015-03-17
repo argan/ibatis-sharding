@@ -19,7 +19,7 @@ import com.ibatis.sqlmap.client.SqlMapClient;
  * 
  * 推荐使用时能将每次查询只分布在唯一的节点
  * 
- * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a href="mailto:argan.wang@gmail.com">Argan Wang</a>
  * 
  */
 public class ShardedSqlMapClientDAOSupport extends DaoSupport {

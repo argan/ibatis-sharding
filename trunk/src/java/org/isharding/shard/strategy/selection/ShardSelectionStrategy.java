@@ -5,7 +5,7 @@ import org.isharding.shard.ShardId;
 /**
  * 选择策略(目前不在使用)
  * 
- * @author <a mailto="kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a mailto="argan.wang@gmail.com">Argan Wang</a>
  */
 public interface ShardSelectionStrategy {
     /**

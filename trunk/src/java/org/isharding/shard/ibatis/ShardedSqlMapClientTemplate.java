@@ -23,7 +23,7 @@ import com.ibatis.sqlmap.client.SqlMapExecutor;
 
 /**
  * 
- * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a href="mailto:argan.wang@gmail.com">Argan Wang</a>
  *
  */
 public class ShardedSqlMapClientTemplate implements Operations {

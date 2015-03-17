@@ -15,7 +15,7 @@ import org.isharding.shard.ShardId;
 /**
  * 默认的Shard实现，主要是包装dataSource和对应的shardId列表
  * 
- * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a href="mailto:argan.wang@gmail.com">Argan Wang</a>
  * 
  */
 public class ShardImpl implements Shard {

@@ -5,7 +5,7 @@ import org.isharding.shard.strategy.access.ExitOperationsCollector;
 
 /**
  * 获取第一个非null结果的退出策略，主要处理在shars中查询一条记录是使用
- * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a href="mailto:argan.wang@gmail.com">Argan Wang</a>
  *
  */
 public class FirstNotNullExitStrategy implements ExitStrategy {

@@ -8,7 +8,7 @@ import org.isharding.shard.strategy.access.ExitOperationsCollector;
 
 /**
  * 将数字结果进行求和处理的退出策略
- * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a href="mailto:argan.wang@gmail.com">Argan Wang</a>
  *
  */
 public class SumExitStrategy implements ExitStrategy {

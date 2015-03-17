@@ -5,7 +5,7 @@ import org.isharding.shard.strategy.access.ExitOperationsCollector;
 
 /**
  * 退出策略，如果在多个shards中执行，可能需要中途退出操作
- * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a href="mailto:argan.wang@gmail.com">Argan Wang</a>
  *
  */
 public interface ExitStrategy {

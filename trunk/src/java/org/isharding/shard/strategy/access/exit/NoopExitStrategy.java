@@ -5,7 +5,7 @@ import org.isharding.shard.strategy.access.ExitOperationsCollector;
 
 /**
  * 吗也不做的退出策略
- * @author <a href="mailto:kerrigan@alibaba-inc.com">Argan Wang</a>
+ * @author <a href="mailto:argan.wang@gmail.com">Argan Wang</a>
  *
  */
 public class NoopExitStrategy  implements ExitStrategy  {
